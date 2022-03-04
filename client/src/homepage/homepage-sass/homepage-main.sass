@@ -1,0 +1,115 @@
+.homepage-main
+    margin-top: 80px
+
+    width: 100%
+
+    display: flex
+    justify-content: space-between
+
+    padding-right: 40px
+
+    &__left
+
+        margin-top: 64px
+        margin-right: 37px
+
+        .homepage-main__text
+
+            font-weight: bold
+            font-size: 64.85px
+            line-height: 86px
+            color: #091638
+            margin-bottom: 8px
+
+        .homepage-main__text_under
+            font-size: 21.25px
+            line-height: 34px
+            font-feature-settings: 'liga' off
+            color: #091638
+            margin-bottom: 24px
+
+        .homepage-main__search_container
+
+            height: 104px
+            display: flex
+            justify-content: center
+            align-items: center
+
+            background: #F3F3FA
+            border-radius: 4px
+
+            .homepage-main__search_form
+
+                width: 100%
+                padding-left: 24px
+                padding-right: 24px
+
+                position: relative
+
+                display: flex
+
+                &_emoji_location
+                    position: absolute
+                    top: 48%
+                    transform: translateY(-50%)
+                    left: 8%
+
+                    font-size: 20px
+                    opacity: 0.35
+
+                &_emoji_search
+                    position: absolute
+                    top: 48%
+                    transform: translateY(-50%)
+                    right: 28%
+
+                    color: white
+                    font-size: 20px
+
+                &_input
+
+                    flex: 3
+                    height: 56px
+
+                    background: #FFFFFF
+                    border: 1px solid #DDDDDD
+                    box-sizing: border-box
+                    box-shadow: inset 0px 1px 5px rgba(0, 0, 0, 0.1)
+                    border-radius: 4px
+
+                    padding-left: 48px
+                    margin-right: 16px
+
+                    &::placeholder
+                        font-size: 17px
+                        color: #141B2D
+                        opacity: 0.5
+
+                &_button
+
+                    border: none
+                    flex: 2
+                    height: 56px
+                    background: #1C3988
+                    border-radius: 4px
+
+                    font-size: 16px
+                    color: #FFFFFF
+
+    &__right
+
+        .homepage-main__image_container
+            position: relative
+
+            .homepage-main__image_background
+                position: absolute
+                left: 24.4%
+                bottom: 0.3%
+                z-index: -1
+
+            .homepage-main__image_background_dots
+                position: absolute
+                left: 24.4%
+                bottom: 10%
+
+                z-index: -2
