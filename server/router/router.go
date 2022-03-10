@@ -13,7 +13,7 @@ func Router() *mux.Router {
 
 	router := mux.NewRouter()
 
-	router.HandleFunc("/api/task", middleware.CreateTask).Methods("POST", "OPTIONS")
+	router.HandleFunc("/api/task", middleware.CreateRE).Methods("POST", "OPTIONS")
 	return router
 	//dfd
 }
