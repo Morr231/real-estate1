@@ -20,7 +20,7 @@ const connectionString = "mongodb+srv://admin:admin@go-lorem.4d1eq.mongodb.net/m
 // Database Name
 const dbName = "real-estate"
 
-// Collection name
+// Collection namenp
 const collName = "estate"
 
 // collection object/instance
@@ -53,19 +53,19 @@ func init() {
 	fmt.Println("Collection instance created!")
 }
 
-func CreateTask(w http.ResponseWriter, r *http.Request) {
-	w.Header().Set("Context-Type", "application/search")
+func CreateRE(w http.ResponseWriter, r *http.Request) {
+	w.Header().Set("Context-Type", "application/card")
 	w.Header().Set("Access-Control-Allow-Origin", "*")
 	w.Header().Set("Access-Control-Allow-Methods", "POST")
 	w.Header().Set("Access-Control-Allow-Headers", "Content-Type")
-	var user models.Test
+	var user models.Object
 	_ = json.NewDecoder(r.Body).Decode(&user)
 	// fmt.Println(task, r.Body)
-	insertOneTask(user)
+	insertOneRE(user)
 	json.NewEncoder(w).Encode(user)
 }
 
-func insertOneTask(user models.Test) {
+func insertOneRE(user models.Object) {
 	insertResult, err := collection.InsertOne(context.Background(), user)
 
 	if err != nil {
