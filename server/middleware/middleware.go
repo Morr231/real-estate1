@@ -4,6 +4,8 @@ import (
 	"context"
 	"encoding/json"
 	"fmt"
+	"go.mongodb.org/mongo-driver/bson"
+	"go.mongodb.org/mongo-driver/bson/primitive"
 	"go.mongodb.org/mongo-driver/mongo"
 	"go.mongodb.org/mongo-driver/mongo/options"
 	"log"
@@ -53,6 +55,15 @@ func init() {
 	fmt.Println("Collection instance created!")
 }
 
+func GetAllCards(w http.ResponseWriter, r *http.Request) {
+	fmt.Println("blabla")
+	w.Header().Set("Context-Type", "application/all")
+	w.Header().Set("Access-Control-Allow-Origin", "*")
+	w.Header().Set("Access-Control-Allow-Headers", "Content-Type")
+	payload := getAllCards()
+	json.NewEncoder(w).Encode(payload)
+}
+
 func CreateRE(w http.ResponseWriter, r *http.Request) {
 	w.Header().Set("Context-Type", "application/card")
 	w.Header().Set("Access-Control-Allow-Origin", "*")
@@ -63,6 +74,32 @@ func CreateRE(w http.ResponseWriter, r *http.Request) {
 	// fmt.Println(task, r.Body)
 	insertOneRE(user)
 	json.NewEncoder(w).Encode(user)
+}
+
+func getAllCards() []primitive.M {
+	cur, err := collection.Find(context.Background(), bson.D{{}})
+	if err != nil {
+		log.Fatal(err)
+	}
+
+	var results []primitive.M
+	for cur.Next(context.Background()) {
+		var result bson.M
+		e := cur.Decode(&result)
+		if e != nil {
+			log.Fatal(e)
+		}
+		// fmt.Println("cur..>", cur, "result", reflect.TypeOf(result), reflect.TypeOf(result["_id"]))
+		results = append(results, result)
+
+	}
+
+	if err := cur.Err(); err != nil {
+		log.Fatal(err)
+	}
+
+	cur.Close(context.Background())
+	return results
 }
 
 func insertOneRE(user models.Object) {
