@@ -39,13 +39,13 @@ function TopOffersMain() {
             <form className="top-offers-main__form">
                 <input className="top-offers-main__form_slider" type="range" />
             </form>
-
+            {/* 
             <form onSubmit={(e) => handleCard(e)}>
                 <input type="text" name="description" />
                 <input type="text" name="price" />
                 <input type="text" name="location" />
                 <input type="submit" />
-            </form>
+            </form> */}
 
             <div className="top-offers-main__buttons">
                 <button className="top-offers-main__buttons_left top-offers-main__button">

@@ -3,6 +3,8 @@ import "../homepage-sass/homepage-header.sass";
 
 import logo from "../homepage-img/logo.png";
 
+import { Link } from "react-router-dom";
+
 const HomepageHeader = () => {
     return (
         <div className="homepage-header">
@@ -13,20 +15,20 @@ const HomepageHeader = () => {
             <nav className="homepage-header-nav">
                 <ul className="homepage-header-nav__container">
                     <li className="homepage-header-nav__element">
-                        <a
-                            href="#"
+                        <Link
                             className="homepage-header-nav__element_link"
+                            to="/"
                         >
-                            Top offers
-                        </a>
+                            Top Offers
+                        </Link>
                     </li>
                     <li className="homepage-header-nav__element">
-                        <a
-                            href="#"
+                        <Link
                             className="homepage-header-nav__element_link"
+                            to="/search-in-offers"
                         >
                             Search in offers
-                        </a>
+                        </Link>
                     </li>
                     <li className="homepage-header-nav__element">
                         <a
