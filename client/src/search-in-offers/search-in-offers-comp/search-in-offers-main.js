@@ -2,6 +2,9 @@ import React from "react";
 
 import "../search-in-offers-sass/search-in-offers-main.sass";
 
+import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
+import { faSearch } from "@fortawesome/free-solid-svg-icons";
+
 const SearchInOffersMain = () => {
     return (
         <div className="search-in-offers-main">
@@ -18,6 +21,12 @@ const SearchInOffersMain = () => {
                         <input
                             type="text"
                             className="search-in-offers-main-container__form_upper_text"
+                            placeholder="Enter a keyword"
+                        />
+
+                        <FontAwesomeIcon
+                            className="search-in-offers-main-container__form_upper_emoji_search"
+                            icon={faSearch}
                         />
                         <button className="search-in-offers-main-container__form_upper_button">
                             Search
@@ -25,25 +34,14 @@ const SearchInOffersMain = () => {
                     </div>
 
                     <div className="search-in-offers-main-container__form_filter">
-                        <input
-                            type="text"
-                            className="search-in-offers-main-container__form_filter_radio"
-                        />
-                        <input
-                            type="text"
-                            className="search-in-offers-main-container__form_filter_radio"
-                        />
-                        <input
-                            type="text"
-                            className="search-in-offers-main-container__form_filter_radio"
-                        />
-                        <input
-                            type="text"
-                            className="search-in-offers-main-container__form_filter_radio"
-                        />
+                        <select
+                            name=""
+                            id=""
+                            className="search-in-offers-main-container__form_filter_select"
+                        ></select>
                     </div>
 
-                    <div className="search-in-offers-main-container__form_ranges">
+                    {/* <div className="search-in-offers-main-container__form_ranges">
                         <input
                             type="range"
                             className="search-in-offers-main-container__form_range"
@@ -58,7 +56,7 @@ const SearchInOffersMain = () => {
                             value="-30"
                             max="20"
                         />
-                    </div>
+                    </div> */}
                 </form>
             </div>
         </div>
