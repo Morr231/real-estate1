@@ -1,35 +1,50 @@
-import React, { useEffect } from "react";
+import React, { useState, useEffect, useCallback } from "react";
 
 import RealEstateCard from "../../real-estate-card/real-estate-card";
 import "../search-in-offers-sass/search-in-offers-card.sass";
 
 const SearchInOffersCards = () => {
+    const [cards, setCards] = useState([]);
+
+    const clickHandle = () => {
+        console.log(cards[0]["cost"]);
+    };
+
     useEffect(() => {
-        async function allCardsHandler() {
+        const allCardsHandler = async () => {
             const response = await fetch("http://localhost:8080/api/task/all", {
                 headers: {
                     "Content-Type": "application/card",
                 },
             });
-            console.log(JSON.stringify(response));
             const data = await response.json();
-            console.log(data);
-        }
+            setCards(data);
+        };
 
         allCardsHandler();
-    });
+    }, []);
 
-    return (
-        <div className="search-in-offers-cards">
-            <RealEstateCard />
-            <RealEstateCard />
-            <RealEstateCard />
-
-            <RealEstateCard />
-            <RealEstateCard />
-            <RealEstateCard />
-        </div>
-    );
+    if (cards.length != 0) {
+        return (
+            <div className="search-in-offers-cards" onClick={clickHandle}>
+                {cards.map((card) => {
+                    return (
+                        <RealEstateCard
+                            description={card.description}
+                            price={card.price}
+                            location={card.location}
+                        />
+                    );
+                })}
+            </div>
+        );
+    } else {
+        return (
+            <div className="search-in-offers-cards" onClick={clickHandle}>
+                <h1>Hello world</h1>
+            </div>
+        );
+    }
 };
 
 export default SearchInOffersCards;
