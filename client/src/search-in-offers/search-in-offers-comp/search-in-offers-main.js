@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useState } from "react";
 
 import "../search-in-offers-sass/search-in-offers-main.sass";
 
@@ -6,6 +6,28 @@ import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faSearch } from "@fortawesome/free-solid-svg-icons";
 
 const SearchInOffersMain = () => {
+    const submitHandler = (e) => {
+        e.preventDefault();
+
+        // setFile(e.target.file.value);
+        const formData = new FormData();
+        formData.append("file", e.target.file.value);
+
+        postData(formData);
+    };
+
+    async function postData(formData) {
+        const response = await fetch("", {
+            method: "POST",
+            body: formData,
+            headers: {
+                "Content-Type": "application/x-www-form-urlencoded",
+            },
+        });
+        const json = await response.json();
+        console.log("Успех:", JSON.stringify(json));
+    }
+
     return (
         <div className="search-in-offers-main">
             <h2 className="search-in-offers-main-header">
@@ -14,6 +36,10 @@ const SearchInOffersMain = () => {
             <div className="search-in-offers-main-description">
                 Choose from the most advantageous offers
             </div>
+
+            <form onSubmit={submitHandler}>
+                <input type="file" name="file" />
+            </form>
 
             <div className="search-in-offers-main-container">
                 <form className="search-in-offers-main-container__form container">
