@@ -6,6 +6,7 @@ import AboutUs from "./about-us/about-us";
 import OurTeam from "./our-team/our-team";
 import References from "./references/references";
 import Footer from "./footer/footer";
+import DetailOffer from "./detail-offer/detail-offer";
 
 import { Routes, Route } from "react-router-dom";
 
@@ -22,6 +23,7 @@ function App() {
                     path="/search-in-offers"
                     element={<SearchInOffersLink />}
                 />
+                <Route path="/search-in-offers/:id" element={<DetailOffer />} />
             </Routes>
             {/* <TopOffers />
             <AboutUs /> */}

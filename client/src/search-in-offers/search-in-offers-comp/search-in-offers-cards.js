@@ -1,4 +1,5 @@
-import React, { useState, useEffect, useCallback } from "react";
+import React, { useState, useEffect, useCallback, Component } from "react";
+import { Link } from "react-router-dom";
 
 import RealEstateCard from "../../real-estate-card/real-estate-card";
 import "../search-in-offers-sass/search-in-offers-card.sass";
@@ -29,11 +30,13 @@ const SearchInOffersCards = () => {
             <div className="search-in-offers-cards" onClick={clickHandle}>
                 {cards.map((card) => {
                     return (
-                        <RealEstateCard
-                            description={card.description}
-                            price={card.price}
-                            location={card.location}
-                        />
+                        <Link to={`/search-in-offers-cards/${card["_id"]}`}>
+                            <RealEstateCard
+                                description={card.description}
+                                price={card.price}
+                                location={card.location}
+                            />
+                        </Link>
                     );
                 })}
             </div>
