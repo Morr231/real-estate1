@@ -7,9 +7,12 @@ import (
 	"go.mongodb.org/mongo-driver/bson"
 	"go.mongodb.org/mongo-driver/bson/primitive"
 	"go.mongodb.org/mongo-driver/mongo"
+	"go.mongodb.org/mongo-driver/mongo/gridfs"
 	"go.mongodb.org/mongo-driver/mongo/options"
+	"io/ioutil"
 	"log"
 	"net/http"
+	"os"
 
 	"real-estate1/models"
 )
@@ -22,6 +25,8 @@ const connectionString = "mongodb+srv://admin:admin@go-lorem.4d1eq.mongodb.net/m
 // Database Name
 const dbName = "real-estate"
 
+var client *mongo.Client
+
 // Collection namenp
 const collName = "estate"
 
@@ -30,12 +35,12 @@ var collection *mongo.Collection
 
 // create connection with mongo db
 func init() {
-
 	// Set client options
+	var err error
 	clientOptions := options.Client().ApplyURI(connectionString)
 
 	// connect to MongoDB
-	client, err := mongo.Connect(context.TODO(), clientOptions)
+	client, err = mongo.Connect(context.TODO(), clientOptions)
 
 	if err != nil {
 		log.Fatal(err)
@@ -54,9 +59,37 @@ func init() {
 
 	fmt.Println("Collection instance created!")
 }
+func UploadFile(file, filename string) {
+
+	data, err := ioutil.ReadFile(file)
+	if err != nil {
+		log.Fatal(err)
+	}
+	bucket, err := gridfs.NewBucket(
+		client.Database("myfiles"),
+	)
+	if err != nil {
+		log.Fatal(err)
+		os.Exit(1)
+	}
+	uploadStream, err := bucket.OpenUploadStream(
+		filename,
+	)
+	if err != nil {
+		fmt.Println(err)
+		os.Exit(1)
+	}
+	defer uploadStream.Close()
+
+	fileSize, err := uploadStream.Write(data)
+	if err != nil {
+		log.Fatal(err)
+		os.Exit(1)
+	}
+	log.Printf("Write file to DB was successful. File size: %d M\n", fileSize)
+}
 
 func GetAllCards(w http.ResponseWriter, r *http.Request) {
-	fmt.Println("blabla")
 	w.Header().Set("Context-Type", "application/all")
 	w.Header().Set("Access-Control-Allow-Origin", "*")
 	w.Header().Set("Access-Control-Allow-Headers", "Content-Type")
