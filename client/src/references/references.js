@@ -8,7 +8,7 @@ function References() {
     const [referenceState, setReferenceState] = useState(0);
 
     return (
-        <div className="references">
+        <div className="references" id="references">
             <div className="container">
                 {referenceState == 0 && (
                     <div className="references-state1">

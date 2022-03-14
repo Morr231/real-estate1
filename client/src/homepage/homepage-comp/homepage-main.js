@@ -13,7 +13,8 @@ const HomepageMain = () => {
         <div className="homepage-main">
             <div className="homepage-main__left">
                 <h1 className="homepage-main__text">
-                    Modern living <br /> for everyone
+                    Modern living <br /> for everyone <br />
+                    A-dil building
                 </h1>
                 <div className="homepage-main__text_under">
                     We provide a complete service for the sale, purchase or
@@ -21,7 +22,7 @@ const HomepageMain = () => {
                     Barcelona more than 15 years.
                 </div>
 
-                <div className="homepage-main__search_container">
+                {/* <div className="homepage-main__search_container">
                     <form className="homepage-main__search_form">
                         <FontAwesomeIcon
                             className="homepage-main__search_form_emoji_location"
@@ -41,7 +42,7 @@ const HomepageMain = () => {
                             Search
                         </button>
                     </form>
-                </div>
+                </div> */}
             </div>
 
             <div className="homepage-main__right">
