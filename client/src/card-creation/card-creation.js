@@ -1,21 +1,38 @@
-import React from "react";
+import React, {useState} from "react";
 
 import "./card-creation-sass/card-creation.sass";
 
 const CardCreation = () => {
+    const allFiles =[];
+    const photoSend = (event) => {
+        const formData = new FormData();
+        formData.append("file", event.target.files[0]);
+        postData(formData);
+    }
+
+    async function postData(formData) {
+        console.log(formData);
+        const response = await fetch("http://localhost:8080/api/task/photo", {
+            method: "POST",
+            body: formData,
+            headers: {
+                // 'Content-Type': undefined,
+                Accept: "*/*",
+            },
+        });
+        const result= await response.json();
+        console.log(result);
+       allFiles.push(result);
+        console.log(allFiles);
+    }
+
     const handleCard = (event) => {
         event.preventDefault();
-
-        const allFiles = [];
-        for (let i = 0; i < event.target.files.lenght; i++) {
-            const formData = new FormData();
-            formData.append("file", event.target.files[i]);
-            allFiles.append(formData);
-        }
+        console.log(allFiles)
 
         const user = {
             description: event.target.description.value,
-            price: event.target.price.value,
+            cost: event.target.price.value,
             location: event.target.location.value,
             type: event.target.type.value,
             size: event.target.size.value,
@@ -27,7 +44,7 @@ const CardCreation = () => {
     };
 
     async function addCardHandler(card) {
-        const response = await fetch("http://localhost:8080/api/task/photo", {
+        const response = await fetch("http://localhost:8080/api/task/create", {
             method: "POST",
             body: JSON.stringify(card),
             headers: {
@@ -49,6 +66,7 @@ const CardCreation = () => {
                     type="file"
                     name="photo"
                     className="card-creation-form__file"
+                    onChange={photoSend}
                 />
 
                 <input
