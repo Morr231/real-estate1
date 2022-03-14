@@ -2,6 +2,9 @@ import React from "react";
 
 import "./card-creation-sass/card-creation.sass";
 
+import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
+import { faArrowUp } from "@fortawesome/free-solid-svg-icons";
+
 const CardCreation = () => {
     const handleCard = (event) => {
         event.preventDefault();
@@ -45,44 +48,64 @@ const CardCreation = () => {
                 onSubmit={handleCard}
                 encType="multipart/form-data"
             >
-                <input
-                    type="file"
-                    name="photo"
-                    className="card-creation-form__file"
-                />
+                <div className="card-creation-form__all_container">
+                    <div className="card-creation-form__container">
+                        <label htmlFor="description">
+                            Provide your description
+                        </label>
+                        <input
+                            type="text"
+                            name="description"
+                            className="card-creation-form__text"
+                        />
+                        <label htmlFor="price">Provide your price</label>
+                        <input
+                            type="text"
+                            name="price"
+                            className="card-creation-form__text"
+                        />
+                        <label htmlFor="location">Provide your location</label>
+                        <input
+                            type="text"
+                            name="location"
+                            className="card-creation-form__text"
+                        />
+                    </div>
 
-                <input
-                    type="text"
-                    name="description"
-                    className="card-creation-form__text"
-                />
-                <input
-                    type="text"
-                    name="price"
-                    className="card-creation-form__text"
-                />
-                <input
-                    type="text"
-                    name="location"
-                    className="card-creation-form__text"
-                />
+                    <div className="card-creation-form__container">
+                        <label htmlFor="type">Provide your type</label>
+                        <input
+                            type="text"
+                            name="type"
+                            className="card-creation-form__text"
+                        />
+                        <label htmlFor="size">Provide your size</label>
+                        <input
+                            type="text"
+                            name="size"
+                            className="card-creation-form__text"
+                        />
+                        <label htmlFor="text">Provide your text</label>
+                        <input
+                            type="text"
+                            name="text"
+                            className="card-creation-form__text"
+                        />
+                    </div>
+                </div>
 
-                <input
-                    type="text"
-                    name="type"
-                    className="card-creation-form__text"
-                />
-                <input
-                    type="text"
-                    name="size"
-                    className="card-creation-form__text"
-                />
-                <input
-                    type="text"
-                    name="text"
-                    className="card-creation-form__text"
-                />
-                <input type="submit" />
+                <label className="photoLabel" htmlFor="photo">
+                    Provide your photo
+                </label>
+
+                <div class="wrapper">
+                    <div class="file-upload">
+                        <input type="file" name="image" />
+                        <FontAwesomeIcon icon={faArrowUp} />
+                    </div>
+                </div>
+
+                <input type="submit" className="card-creation-form__submit" />
             </form>
         </div>
     );
