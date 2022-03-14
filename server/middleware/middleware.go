@@ -7,12 +7,11 @@ import (
 	"go.mongodb.org/mongo-driver/bson"
 	"go.mongodb.org/mongo-driver/bson/primitive"
 	"go.mongodb.org/mongo-driver/mongo"
-	"go.mongodb.org/mongo-driver/mongo/gridfs"
 	"go.mongodb.org/mongo-driver/mongo/options"
 	"io/ioutil"
 	"log"
 	"net/http"
-	"os"
+	"path"
 
 	"real-estate1/models"
 )
@@ -59,34 +58,39 @@ func init() {
 
 	fmt.Println("Collection instance created!")
 }
-func UploadFile(file, filename string) {
 
-	data, err := ioutil.ReadFile(file)
+func Photo(w http.ResponseWriter, r *http.Request) {
+	w.Header().Set("Access-Control-Allow-Origin", "*")
+	//w.Header().Set("Access-Control-Allow-Headers", "Content-Type")
+	w.Header().Set("Content-Type", "application/json")
+	fmt.Println(r)
+	r.ParseMultipartForm(10 << 20)
+	file, _, err := r.FormFile("file")
 	if err != nil {
-		log.Fatal(err)
+		fmt.Println("error while getting the File")
+		fmt.Println(err)
+		return
 	}
-	bucket, err := gridfs.NewBucket(
-		client.Database("myfiles"),
-	)
-	if err != nil {
-		log.Fatal(err)
-		os.Exit(1)
-	}
-	uploadStream, err := bucket.OpenUploadStream(
-		filename,
-	)
+	defer file.Close()
+	tempFile, err := ioutil.TempFile("E:/real-estate/real-estate1", "upload-*.jpeg")
 	if err != nil {
 		fmt.Println(err)
-		os.Exit(1)
 	}
-	defer uploadStream.Close()
+	defer tempFile.Close()
+	fileBytes, err := ioutil.ReadAll(file)
+	if err != nil {
+		fmt.Println(err)
+	}
+	tempFile.Write(fileBytes)
+	photo := models.MongoImage{
+		Name: "/" + path.Base(tempFile.Name()),
+	}
 
-	fileSize, err := uploadStream.Write(data)
+	insertResult, err := collection.InsertOne(context.Background(), photo)
 	if err != nil {
 		log.Fatal(err)
-		os.Exit(1)
 	}
-	log.Printf("Write file to DB was successful. File size: %d M\n", fileSize)
+	json.NewEncoder(w).Encode(insertResult.InsertedID) // return the //mongodb ID of generated document
 }
 
 func GetAllCards(w http.ResponseWriter, r *http.Request) {
