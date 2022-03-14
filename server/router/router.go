@@ -2,9 +2,6 @@ package router
 
 import (
 	"github.com/gorilla/mux"
-	"os"
-	"path"
-
 	//"real-estate1/middleware"
 
 	"real-estate1/middleware"
@@ -17,9 +14,10 @@ func Router() *mux.Router {
 
 	router.HandleFunc("/api/task", middleware.CreateRE).Methods("POST", "OPTIONS")
 	router.HandleFunc("/api/task/all", middleware.GetAllCards).Methods("GET", "OPTIONS")
-	file := os.Args[1] //os.Args[1] = testfile.zip
+	router.HandleFunc("/api/task/photo", middleware.Photo).Methods("POST", "OPTIONS")
+	/*file := os.Args[1] //os.Args[1] = testfile.zip
 	filename := path.Base(file)
-	middleware.UploadFile(file, filename)
+	middleware.UploadFile(file, filename)*/
 	return router
 	//dfd
 }

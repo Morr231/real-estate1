@@ -19,16 +19,9 @@ type User struct {
 }
 
 type MongoImage struct {
-	imageID     bson.ObjectId `bson:"image_id"`
-	Author      string        `bson:"author"`
-	Caption     string        `bson:"caption"`
-	ContentType string        `bson:"contentType"`
-	DateTime    string        `bson:"dateTime"`
-	FileID      bson.ObjectId `bson:"fileID"`
-	FileSize    int64         `bson:"fileSize"`
-	Height      int           `bson:"height"`
-	Name        string        `bson:"name"`
-	Width       int           `bson:"width"`
+	imageID bson.ObjectId `bson:"image_id"`
+	FileID  bson.ObjectId `bson:"fileID"`
+	Name    string        `bson:"name"`
 }
 
 type Object struct {

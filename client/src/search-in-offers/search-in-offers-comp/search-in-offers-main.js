@@ -8,24 +8,24 @@ import { faSearch } from "@fortawesome/free-solid-svg-icons";
 const SearchInOffersMain = () => {
     const submitHandler = (e) => {
         e.preventDefault();
-
+        console.log(e.target.files)
         // setFile(e.target.file.value);
         const formData = new FormData();
-        formData.append("file", e.target.file.value);
+        formData.append("file", e.target.files[0]);
 
         postData(formData);
     };
 
     async function postData(formData) {
-        const response = await fetch("", {
+        console.log(formData);
+        const response = await fetch("http://localhost:8080/api/task/photo", {
             method: "POST",
             body: formData,
             headers: {
-                "Content-Type": "application/x-www-form-urlencoded",
-            },
+                // 'Content-Type': undefined,
+                'Accept': '*/*',
+                },
         });
-        const json = await response.json();
-        console.log("Успех:", JSON.stringify(json));
     }
 
     return (
@@ -37,8 +37,8 @@ const SearchInOffersMain = () => {
                 Choose from the most advantageous offers
             </div>
 
-            <form onSubmit={submitHandler}>
-                <input type="file" name="file" />
+            <form encType="multipart/form-data">
+                <input type="file" name="file" onChange={submitHandler} />
             </form>
 
             <div className="search-in-offers-main-container">
