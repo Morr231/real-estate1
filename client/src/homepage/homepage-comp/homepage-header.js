@@ -32,7 +32,7 @@ const HomepageHeader = () => {
                     </li>
                     <li className="homepage-header-nav__element">
                         <a
-                            href="#"
+                            href="#references"
                             className="homepage-header-nav__element_link"
                         >
                             References
@@ -40,7 +40,7 @@ const HomepageHeader = () => {
                     </li>
                     <li className="homepage-header-nav__element">
                         <a
-                            href="#"
+                            href="#about-us"
                             className="homepage-header-nav__element_link"
                         >
                             About us
@@ -48,7 +48,7 @@ const HomepageHeader = () => {
                     </li>
                     <li className="homepage-header-nav__element">
                         <a
-                            href="#"
+                            href="#our-team"
                             className="homepage-header-nav__element_link"
                         >
                             Our team

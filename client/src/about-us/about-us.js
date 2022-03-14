@@ -5,7 +5,7 @@ import person from "./about-us-img/person.png";
 
 function AboutUs() {
     return (
-        <div className="about-us">
+        <div className="about-us" id="about-us">
             <div className="container about-us-wrapper">
                 <div className="about-us__right">
                     <div className="about-us__right_image_container">

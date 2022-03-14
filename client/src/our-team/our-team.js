@@ -15,7 +15,7 @@ function OurTeam() {
     const [teamState, setTeamState] = useState(0);
 
     return (
-        <div className="our-team">
+        <div className="our-team" id="our-team">
             <div className="container">
                 {teamState == 0 && (
                     <div className="our-team__state1">
