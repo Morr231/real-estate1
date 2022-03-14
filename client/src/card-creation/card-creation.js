@@ -6,9 +6,11 @@ const CardCreation = () => {
     const handleCard = (event) => {
         event.preventDefault();
 
-        const formData = new FormData();
+        const allFiles = [];
         for (let i = 0; i < event.target.files.lenght; i++) {
+            const formData = new FormData();
             formData.append("file", event.target.files[i]);
+            allFiles.append(formData);
         }
 
         const user = {
@@ -18,7 +20,7 @@ const CardCreation = () => {
             type: event.target.type.value,
             size: event.target.size.value,
             text: event.target.text.value,
-            photo: formData,
+            photo: allFiles,
         };
 
         addCardHandler(user);
