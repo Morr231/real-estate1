@@ -7,8 +7,7 @@ import (
 
 type MongoImage struct {
 	imageID bson.ObjectId `bson:"image_id"`
-	FileID  bson.ObjectId `bson:"fileID"`
-	Name    string        `bson:"name"`
+	Path    string        `bson:"path"`
 }
 
 type Object struct {
@@ -17,7 +16,7 @@ type Object struct {
 	Description string             `json:"description,omitempty"`
 	Type        string             `json:"type,omitempty"`
 	Cost        string             `json:"cost,omitempty"`
-	Photo       []MongoImage       `json:"photo,omitempty"`
+	Photo       []string           `json:"photo,omitempty"`
 	Size        string             `json:"size,omitempty"`
 	Location    string             `json:"location,omitempty"`
 	Username    string             `json:"username,omitempty"`
