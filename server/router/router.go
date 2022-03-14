@@ -12,7 +12,7 @@ func Router() *mux.Router {
 
 	router := mux.NewRouter()
 
-	router.HandleFunc("/api/task", middleware.CreateRE).Methods("POST", "OPTIONS")
+	router.HandleFunc("/api/task/create", middleware.CreateRE).Methods("POST", "OPTIONS")
 	router.HandleFunc("/api/task/all", middleware.GetAllCards).Methods("GET", "OPTIONS")
 	router.HandleFunc("/api/task/photo", middleware.Photo).Methods("POST", "OPTIONS")
 	/*file := os.Args[1] //os.Args[1] = testfile.zip
