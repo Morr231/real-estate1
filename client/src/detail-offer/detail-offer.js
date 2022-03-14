@@ -5,7 +5,6 @@ import "./detail-offer-sass/detail-offer.sass";
 const DetailOffer = () => {
     const [cards, setCards] = useState([]);
     const { id } = useParams();
-    let [card, setCard] = useState(-1);
 
     useEffect(() => {
         const allCardsHandler = async () => {
@@ -21,6 +20,19 @@ const DetailOffer = () => {
         allCardsHandler();
     }, []);
 
+    async function postData(index) {
+        const response = await fetch("http://localhost:8080/api/task/photo", {
+            method: "POST",
+            body: cards[index].photo,
+            headers: {
+                // 'Content-Type': undefined,
+                Accept: "*/*",
+            },
+        });
+        const result = await response.json();
+        console.log(result);
+    }
+
     if (cards.length != 0) {
         let pos = 0;
 
@@ -29,6 +41,9 @@ const DetailOffer = () => {
                 pos = i;
             }
         }
+
+        postData(pos);
+
         return (
             <div className="detail-offer">
                 <h1 className="detail-offer-main">
