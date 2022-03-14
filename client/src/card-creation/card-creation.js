@@ -7,7 +7,9 @@ const CardCreation = () => {
         event.preventDefault();
 
         const formData = new FormData();
-        formData.append("file", event.target.files);
+        for (let i = 0; i < event.target.files.lenght; i++) {
+            formData.append("file", event.target.files[i]);
+        }
 
         const user = {
             description: event.target.description.value,
