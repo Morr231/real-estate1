@@ -23,14 +23,6 @@ const HomepageHeader = () => {
                         </Link>
                     </li>
                     <li className="homepage-header-nav__element">
-                        <Link
-                            className="homepage-header-nav__element_link"
-                            to="/search-in-offers"
-                        >
-                            Search in offers
-                        </Link>
-                    </li>
-                    <li className="homepage-header-nav__element">
                         <a
                             href="#references"
                             className="homepage-header-nav__element_link"
@@ -53,6 +45,14 @@ const HomepageHeader = () => {
                         >
                             Our team
                         </a>
+                    </li>
+                    <li className="homepage-header-nav__element">
+                        <Link
+                            className="homepage-header-nav__element_link"
+                            to="/search-in-offers"
+                        >
+                            Search in offers
+                        </Link>
                     </li>
                     <li className="homepage-header-nav__element">
                         <Link
