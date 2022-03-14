@@ -60,10 +60,9 @@ func init() {
 }
 
 func Photo(w http.ResponseWriter, r *http.Request) {
+	//w.Header().Set("Context-Type", "application/all")
 	w.Header().Set("Access-Control-Allow-Origin", "*")
-	//w.Header().Set("Access-Control-Allow-Headers", "Content-Type")
-	w.Header().Set("Content-Type", "application/json")
-	fmt.Println(r)
+	w.Header().Set("Access-Control-Allow-Headers", "Content-Type")
 	r.ParseMultipartForm(10 << 20)
 	file, _, err := r.FormFile("file")
 	if err != nil {
@@ -83,7 +82,7 @@ func Photo(w http.ResponseWriter, r *http.Request) {
 	}
 	tempFile.Write(fileBytes)
 	photo := models.MongoImage{
-		Name: "/" + path.Base(tempFile.Name()),
+		Path: "\\" + path.Base(tempFile.Name()),
 	}
 
 	insertResult, err := collection.InsertOne(context.Background(), photo)
@@ -108,7 +107,6 @@ func CreateRE(w http.ResponseWriter, r *http.Request) {
 	w.Header().Set("Access-Control-Allow-Headers", "Content-Type")
 	var user models.Object
 	_ = json.NewDecoder(r.Body).Decode(&user)
-	// fmt.Println(task, r.Body)
 	insertOneRE(user)
 	json.NewEncoder(w).Encode(user)
 }
