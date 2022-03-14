@@ -2,6 +2,13 @@ import React, { useState, useEffect } from "react";
 import { useParams } from "react-router-dom";
 import "./detail-offer-sass/detail-offer.sass";
 
+import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
+import {
+    faHouse,
+    faRuler,
+    faMapMarkerAlt,
+} from "@fortawesome/free-solid-svg-icons";
+
 const DetailOffer = () => {
     const [cards, setCards] = useState([]);
     const { id } = useParams();
@@ -21,6 +28,7 @@ const DetailOffer = () => {
     }, []);
 
     async function postData(index) {
+        console.log(cards[index].photo);
         const response = await fetch("http://localhost:8080/api/task/photo", {
             method: "POST",
             body: cards[index].photo,
@@ -29,7 +37,8 @@ const DetailOffer = () => {
                 Accept: "*/*",
             },
         });
-        const result = await response.json();
+        console.log(response);
+        const result = JSON.parse(JSON.stringify(response));
         console.log(result);
     }
 
@@ -50,13 +59,47 @@ const DetailOffer = () => {
                     {cards[pos]["description"]}
                 </h1>
 
-                <img src="" alt="" className="detail-offer-main__image" />
+                <div className="detail-offer-main__image_container">
+                    <img src="" alt="" className="detail-offer-main__image" />
+                </div>
 
                 <div className="detail-offer-carousel"></div>
 
-                <div className="detail-offer-information"></div>
+                <div className="detail-offer-information">
+                    <div className="detail-offer-information__container">
+                        <FontAwesomeIcon
+                            className="detail-offer-information__container_emoji"
+                            icon={faHouse}
+                        />
+                        <div className="detail-offer-information__container_text">
+                            {cards[pos]["type"]}
+                        </div>
+                    </div>
 
-                <div className="detail-offer-description"></div>
+                    <div className="detail-offer-information__container">
+                        <FontAwesomeIcon
+                            className="detail-offer-information__container_emoji"
+                            icon={faRuler}
+                        />
+                        <div className="detail-offer-information__container_text">
+                            {cards[pos]["size"]}
+                        </div>
+                    </div>
+
+                    <div className="detail-offer-information__container">
+                        <FontAwesomeIcon
+                            className="detail-offer-information__container_emoji"
+                            icon={faMapMarkerAlt}
+                        />
+                        <div className="detail-offer-information__container_text">
+                            {cards[pos]["location"]}
+                        </div>
+                    </div>
+                </div>
+
+                <div className="detail-offer-description">
+                    {cards[pos]["text"]}
+                </div>
             </div>
         );
     }
