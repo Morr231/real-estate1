@@ -7,6 +7,7 @@ import OurTeam from "./our-team/our-team";
 import References from "./references/references";
 import Footer from "./footer/footer";
 import DetailOffer from "./detail-offer/detail-offer";
+import CardCreation from "./card-creation/card-creation";
 
 import { Routes, Route } from "react-router-dom";
 
@@ -14,8 +15,6 @@ import SearchInOffersLink from "./links/search-in-offers-link";
 import DefaultLink from "./links/default-link";
 
 function App() {
-    const [card, setCard] = useState();
-
     return (
         <div className="App">
             <Homepage />
@@ -26,6 +25,7 @@ function App() {
                     element={<SearchInOffersLink />}
                 />
                 <Route path="/search-in-offers/:id" element={<DetailOffer />} />
+                <Route path="/create-card" element={<CardCreation />} />
             </Routes>
             {/* <TopOffers />
             <AboutUs /> */}

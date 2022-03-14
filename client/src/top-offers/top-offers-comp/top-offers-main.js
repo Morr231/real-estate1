@@ -10,42 +10,11 @@ import { faAngleLeft, faAngleRight } from "@fortawesome/free-solid-svg-icons";
 import RealEstateCard from "../../real-estate-card/real-estate-card";
 
 function TopOffersMain() {
-    const handleCard = (event) => {
-        event.preventDefault();
-
-        const user = {
-            description: event.target.description.value,
-            price: event.target.price.value,
-            location: event.target.location.value,
-        };
-
-        addCardHandler(user);
-    };
-
-    async function addCardHandler(card) {
-        const response = await fetch("", {
-            method: "POST",
-            body: JSON.stringify(card),
-            headers: {
-                "Content-Type": "application/card",
-            },
-        });
-        const data = await response.json();
-        console.log(data);
-    }
-
     return (
         <div className="top-offers-main">
             <form className="top-offers-main__form">
                 <input className="top-offers-main__form_slider" type="range" />
             </form>
-            {/* 
-            <form onSubmit={(e) => handleCard(e)}>
-                <input type="text" name="description" />
-                <input type="text" name="price" />
-                <input type="text" name="location" />
-                <input type="submit" />
-            </form> */}
 
             <div className="top-offers-main__buttons">
                 <button className="top-offers-main__buttons_left top-offers-main__button">

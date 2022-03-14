@@ -54,6 +54,14 @@ const HomepageHeader = () => {
                             Our team
                         </a>
                     </li>
+                    <li className="homepage-header-nav__element">
+                        <Link
+                            className="homepage-header-nav__element_link"
+                            to="/create-card"
+                        >
+                            Create card
+                        </Link>
+                    </li>
                 </ul>
             </nav>
 

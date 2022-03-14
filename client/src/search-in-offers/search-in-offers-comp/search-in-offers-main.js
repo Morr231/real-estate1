@@ -8,7 +8,7 @@ import { faSearch } from "@fortawesome/free-solid-svg-icons";
 const SearchInOffersMain = () => {
     const submitHandler = (e) => {
         e.preventDefault();
-        console.log(e.target.files)
+        console.log(e.target.files);
         // setFile(e.target.file.value);
         const formData = new FormData();
         formData.append("file", e.target.files[0]);
@@ -23,8 +23,8 @@ const SearchInOffersMain = () => {
             body: formData,
             headers: {
                 // 'Content-Type': undefined,
-                'Accept': '*/*',
-                },
+                Accept: "*/*",
+            },
         });
     }
 
@@ -37,11 +37,7 @@ const SearchInOffersMain = () => {
                 Choose from the most advantageous offers
             </div>
 
-<<<<<<< HEAD
-            <form>
-=======
             <form encType="multipart/form-data">
->>>>>>> d3a2e7889ae27ecc25109a231d08252244ce01e6
                 <input type="file" name="file" onChange={submitHandler} />
             </form>
 
