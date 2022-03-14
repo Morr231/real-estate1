@@ -1,5 +1,5 @@
 import "./App.css";
-
+import react, { useState } from "react";
 import Homepage from "./homepage/homepage";
 import TopOffers from "./top-offers/top-offers";
 import AboutUs from "./about-us/about-us";
@@ -14,6 +14,8 @@ import SearchInOffersLink from "./links/search-in-offers-link";
 import DefaultLink from "./links/default-link";
 
 function App() {
+    const [card, setCard] = useState();
+
     return (
         <div className="App">
             <Homepage />

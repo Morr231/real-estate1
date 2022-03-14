@@ -7,10 +7,6 @@ import "../search-in-offers-sass/search-in-offers-card.sass";
 const SearchInOffersCards = () => {
     const [cards, setCards] = useState([]);
 
-    const clickHandle = () => {
-        console.log(cards[0]["cost"]);
-    };
-
     useEffect(() => {
         const allCardsHandler = async () => {
             const response = await fetch("http://localhost:8080/api/task/all", {
@@ -27,10 +23,10 @@ const SearchInOffersCards = () => {
 
     if (cards.length != 0) {
         return (
-            <div className="search-in-offers-cards" onClick={clickHandle}>
+            <div className="search-in-offers-cards">
                 {cards.map((card) => {
                     return (
-                        <Link to={`/search-in-offers-cards/${card["_id"]}`}>
+                        <Link to={`/search-in-offers/${card["_id"]}`}>
                             <RealEstateCard
                                 description={card.description}
                                 price={card.price}
@@ -43,7 +39,7 @@ const SearchInOffersCards = () => {
         );
     } else {
         return (
-            <div className="search-in-offers-cards" onClick={clickHandle}>
+            <div className="search-in-offers-cards">
                 <h1>Hello world</h1>
             </div>
         );

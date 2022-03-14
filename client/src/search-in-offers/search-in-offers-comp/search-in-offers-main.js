@@ -11,7 +11,7 @@ const SearchInOffersMain = () => {
 
         // setFile(e.target.file.value);
         const formData = new FormData();
-        formData.append("file", e.target.file.value);
+        formData.append("file", e.target.files[0]);
 
         postData(formData);
     };
@@ -24,8 +24,6 @@ const SearchInOffersMain = () => {
                 "Content-Type": "application/x-www-form-urlencoded",
             },
         });
-        const json = await response.json();
-        console.log("Успех:", JSON.stringify(json));
     }
 
     return (
@@ -37,8 +35,8 @@ const SearchInOffersMain = () => {
                 Choose from the most advantageous offers
             </div>
 
-            <form onSubmit={submitHandler}>
-                <input type="file" name="file" />
+            <form>
+                <input type="file" name="file" onChange={submitHandler} />
             </form>
 
             <div className="search-in-offers-main-container">
