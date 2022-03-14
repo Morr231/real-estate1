@@ -92,6 +92,28 @@ func Photo(w http.ResponseWriter, r *http.Request) {
 	json.NewEncoder(w).Encode(insertResult.InsertedID) // return the //mongodb ID of generated document
 }
 
+func PhotoOfCard(w http.ResponseWriter, r *http.Request) {
+	var stringr string
+	_ = json.NewDecoder(r.Body).Decode(&stringr)
+	objID, err := primitive.ObjectIDFromHex(stringr)
+	if err != nil {
+		panic(err)
+	}
+	var result models.MongoImage
+	cur := collection.FindOne(context.Background(), bson.D{{"_id", objID}}).Decode(&result)
+	if cur != nil {
+		panic(err)
+	}
+	fileBytes, err := ioutil.ReadFile(result.Path)
+	if err != nil {
+		panic(err)
+	}
+	w.WriteHeader(http.StatusOK)
+	w.Header().Set("Content-Type", "application/octet-stream")
+	w.Write(fileBytes)
+	return
+}
+
 func GetAllCards(w http.ResponseWriter, r *http.Request) {
 	w.Header().Set("Context-Type", "application/all")
 	w.Header().Set("Access-Control-Allow-Origin", "*")
