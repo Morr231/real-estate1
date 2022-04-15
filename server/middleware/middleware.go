@@ -31,6 +31,7 @@ const collName = "estate"
 
 // collection object/instance
 var collection *mongo.Collection
+var photocollection *mongo.Collection
 
 // create connection with mongo db
 func init() {
@@ -82,10 +83,10 @@ func Photo(w http.ResponseWriter, r *http.Request) {
 	}
 	tempFile.Write(fileBytes)
 	photo := models.MongoImage{
-		Path: "\\" + path.Base(tempFile.Name()),
+		Path: "E:/real-estate/" + path.Base(tempFile.Name()),
 	}
-
-	insertResult, err := collection.InsertOne(context.Background(), photo)
+	photocollection = client.Database(dbName).Collection("Photos")
+	insertResult, err := photocollection.InsertOne(context.Background(), photo)
 	if err != nil {
 		log.Fatal(err)
 	}
@@ -93,25 +94,33 @@ func Photo(w http.ResponseWriter, r *http.Request) {
 }
 
 func PhotoOfCard(w http.ResponseWriter, r *http.Request) {
-	var stringr string
+	w.Header().Set("Access-Control-Allow-Origin", "*")
+	w.Header().Set("Access-Control-Allow-Methods", "POST")
+	w.Header().Set("Access-Control-Allow-Headers", "Content-Type")
+	w.Header().Set("Content-Type", "image/jpeg")
+	var stringr models.Object
 	_ = json.NewDecoder(r.Body).Decode(&stringr)
-	objID, err := primitive.ObjectIDFromHex(stringr)
-	if err != nil {
-		panic(err)
+	fmt.Println(stringr)
+	if len(stringr.Photo) != 0 {
+		fmt.Println("Check the string", stringr.Photo[0])
+		objID, err := primitive.ObjectIDFromHex(stringr.Photo[0])
+		if err != nil {
+			panic(err)
+		}
+		var result models.MongoImage
+		cur := photocollection.FindOne(context.Background(), bson.D{{"_id", objID}}).Decode(&result)
+		if cur != nil {
+			panic(err)
+		}
+		fileBytes, err := ioutil.ReadFile(result.Path)
+		if err != nil {
+			panic(err)
+		}
+		//fmt.Println(fileBytes)
+		w.WriteHeader(http.StatusOK)
+		w.Write(fileBytes)
+		return
 	}
-	var result models.MongoImage
-	cur := collection.FindOne(context.Background(), bson.D{{"_id", objID}}).Decode(&result)
-	if cur != nil {
-		panic(err)
-	}
-	fileBytes, err := ioutil.ReadFile(result.Path)
-	if err != nil {
-		panic(err)
-	}
-	w.WriteHeader(http.StatusOK)
-	w.Header().Set("Content-Type", "application/octet-stream")
-	w.Write(fileBytes)
-	return
 }
 
 func GetAllCards(w http.ResponseWriter, r *http.Request) {
@@ -131,6 +140,42 @@ func CreateRE(w http.ResponseWriter, r *http.Request) {
 	_ = json.NewDecoder(r.Body).Decode(&user)
 	insertOneRE(user)
 	json.NewEncoder(w).Encode(user)
+}
+
+func SearchCards(w http.ResponseWriter, r *http.Request) {
+	w.Header().Set("Context-Type", "application/search")
+	w.Header().Set("Access-Control-Allow-Origin", "*")
+	w.Header().Set("Access-Control-Allow-Headers", "Content-Type")
+	var text string
+	_ = json.NewDecoder(r.Body).Decode(&text)
+	payload := searchCards(text)
+	json.NewEncoder(w).Encode(payload)
+}
+
+func searchCards(d string) []primitive.M {
+	filter := bson.D{{"description", bson.D{{"$text", d}}}}
+	cur, err := collection.Find(context.Background(), filter)
+	if err != nil {
+		panic(err)
+	}
+	var results []primitive.M
+	for cur.Next(context.Background()) {
+		var result bson.M
+		e := cur.Decode(&result)
+		if e != nil {
+			log.Fatal(e)
+		}
+		// fmt.Println("cur..>", cur, "result", reflect.TypeOf(result), reflect.TypeOf(result["_id"]))
+		results = append(results, result)
+
+	}
+
+	if err := cur.Err(); err != nil {
+		log.Fatal(err)
+	}
+
+	cur.Close(context.Background())
+	return results
 }
 
 func getAllCards() []primitive.M {
