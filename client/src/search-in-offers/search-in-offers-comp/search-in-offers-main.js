@@ -6,6 +6,29 @@ import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faSearch } from "@fortawesome/free-solid-svg-icons";
 
 const SearchInOffersMain = () => {
+    const handleSearch = (event) => {
+        event.preventDefault();
+
+        const search = {
+            search: event.target.search.value,
+        };
+
+        searchFetch(search);
+    };
+
+    async function searchFetch(search) {
+        const response = await fetch("http://localhost:8080/api/task/create", {
+            method: "POST",
+            body: JSON.stringify(search),
+            headers: {
+                // "Content-Type": "application/card",
+                Accept: "*/*",
+            },
+        });
+        const data = await response.json();
+        console.log(data);
+    }
+
     return (
         <div className="search-in-offers-main">
             <h2 className="search-in-offers-main-header">
@@ -16,10 +39,14 @@ const SearchInOffersMain = () => {
             </div>
 
             <div className="search-in-offers-main-container">
-                <form className="search-in-offers-main-container__form container">
+                <form
+                    className="search-in-offers-main-container__form container"
+                    onSubmit={handleSearch}
+                >
                     <div className="search-in-offers-main-container__form_upper">
                         <input
                             type="text"
+                            name="search"
                             className="search-in-offers-main-container__form_upper_text"
                             placeholder="Enter a keyword"
                         />
@@ -28,9 +55,10 @@ const SearchInOffersMain = () => {
                             className="search-in-offers-main-container__form_upper_emoji_search"
                             icon={faSearch}
                         />
-                        <button className="search-in-offers-main-container__form_upper_button">
-                            Search
-                        </button>
+                        <input
+                            type="submit"
+                            className="search-in-offers-main-container__form_upper_button"
+                        />
                     </div>
 
                     {/* <div className="search-in-offers-main-container__form_filter">
