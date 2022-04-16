@@ -17,7 +17,8 @@ const SearchInOffersMain = () => {
     };
 
     async function searchFetch(search) {
-        const response = await fetch("http://localhost:8080/api/task/create", {
+        console.log(search);
+        const response = await fetch("http://localhost:8080/api/task/search", {
             method: "POST",
             body: JSON.stringify(search),
             headers: {

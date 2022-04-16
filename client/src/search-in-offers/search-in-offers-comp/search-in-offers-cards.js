@@ -62,28 +62,28 @@ const SearchInOffersCards = () => {
         allCardsHandler();
     }, []);
 
-    async function postData(index) {
-        console.log(cards[index].photo);
-        const response = await fetch("http://localhost:8080/api/task/photo", {
-            method: "POST",
-            body: cards[index].photo,
-            headers: {
-                // 'Content-Type': undefined,
-                Accept: "*/*",
-            },
-        });
-        console.log(response);
-        const result = JSON.parse(JSON.stringify(response));
-        console.log(result);
-        return result;
-    }
+    // async function postData(index) {
+    //     console.log(cards[index].photo);
+    //     const response = await fetch("http://localhost:8080/api/task/photo", {
+    //         method: "POST",
+    //         body: cards[index].photo,
+    //         headers: {
+    //             // 'Content-Type': undefined,
+    //             Accept: "*/*",
+    //         },
+    //     });
+    //     console.log(response);
+    //     const result = JSON.parse(JSON.stringify(response));
+    //     console.log(result);
+    //     return result;
+    // }
 
     if (cards.length != 0) {
         const results = [];
 
-        for (let i = 0; i < cards.length; i++) {
-            results.push(postData(i));
-        }
+        // for (let i = 0; i < cards.length; i++) {
+        //     results.push(postData(i));
+        // }
 
         console.log(results);
 

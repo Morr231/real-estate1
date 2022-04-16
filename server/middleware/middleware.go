@@ -4,14 +4,13 @@ import (
 	"context"
 	"encoding/json"
 	"fmt"
+	"log"
+	"net/http"
+
 	"go.mongodb.org/mongo-driver/bson"
 	"go.mongodb.org/mongo-driver/bson/primitive"
 	"go.mongodb.org/mongo-driver/mongo"
 	"go.mongodb.org/mongo-driver/mongo/options"
-	"io/ioutil"
-	"log"
-	"net/http"
-	"path"
 
 	"real-estate1/models"
 )
@@ -60,68 +59,68 @@ func init() {
 	fmt.Println("Collection instance created!")
 }
 
-func Photo(w http.ResponseWriter, r *http.Request) {
-	//w.Header().Set("Context-Type", "application/all")
-	w.Header().Set("Access-Control-Allow-Origin", "*")
-	w.Header().Set("Access-Control-Allow-Headers", "Content-Type")
-	r.ParseMultipartForm(10 << 20)
-	file, _, err := r.FormFile("file")
-	if err != nil {
-		fmt.Println("error while getting the File")
-		fmt.Println(err)
-		return
-	}
-	defer file.Close()
-	tempFile, err := ioutil.TempFile("E:/real-estate/real-estate1", "upload-*.jpeg")
-	if err != nil {
-		fmt.Println(err)
-	}
-	defer tempFile.Close()
-	fileBytes, err := ioutil.ReadAll(file)
-	if err != nil {
-		fmt.Println(err)
-	}
-	tempFile.Write(fileBytes)
-	photo := models.MongoImage{
-		Path: "E:/real-estate/" + path.Base(tempFile.Name()),
-	}
-	photocollection = client.Database(dbName).Collection("Photos")
-	insertResult, err := photocollection.InsertOne(context.Background(), photo)
-	if err != nil {
-		log.Fatal(err)
-	}
-	json.NewEncoder(w).Encode(insertResult.InsertedID) // return the //mongodb ID of generated document
-}
+// func Photo(w http.ResponseWriter, r *http.Request) {
+// 	//w.Header().Set("Context-Type", "application/all")
+// 	w.Header().Set("Access-Control-Allow-Origin", "*")
+// 	w.Header().Set("Access-Control-Allow-Headers", "Content-Type")
+// 	r.ParseMultipartForm(10 << 20)
+// 	file, _, err := r.FormFile("file")
+// 	if err != nil {
+// 		fmt.Println("error while getting the File")
+// 		fmt.Println(err)
+// 		return
+// 	}
+// 	defer file.Close()
+// 	tempFile, err := ioutil.TempFile("E:/real-estate/real-estate1", "upload-*.jpeg")
+// 	if err != nil {
+// 		fmt.Println(err)
+// 	}
+// 	defer tempFile.Close()
+// 	fileBytes, err := ioutil.ReadAll(file)
+// 	if err != nil {
+// 		fmt.Println(err)
+// 	}
+// 	tempFile.Write(fileBytes)
+// 	photo := models.MongoImage{
+// 		Path: "E:/real-estate/" + path.Base(tempFile.Name()),
+// 	}
+// 	photocollection = client.Database(dbName).Collection("Photos")
+// 	insertResult, err := photocollection.InsertOne(context.Background(), photo)
+// 	if err != nil {
+// 		log.Fatal(err)
+// 	}
+// 	json.NewEncoder(w).Encode(insertResult.InsertedID) // return the //mongodb ID of generated document
+// }
 
-func PhotoOfCard(w http.ResponseWriter, r *http.Request) {
-	w.Header().Set("Access-Control-Allow-Origin", "*")
-	w.Header().Set("Access-Control-Allow-Methods", "POST")
-	w.Header().Set("Access-Control-Allow-Headers", "Content-Type")
-	w.Header().Set("Content-Type", "image/jpeg")
-	var stringr models.Object
-	_ = json.NewDecoder(r.Body).Decode(&stringr)
-	fmt.Println(stringr)
-	if len(stringr.Photo) != 0 {
-		fmt.Println("Check the string", stringr.Photo[0])
-		objID, err := primitive.ObjectIDFromHex(stringr.Photo[0])
-		if err != nil {
-			panic(err)
-		}
-		var result models.MongoImage
-		cur := photocollection.FindOne(context.Background(), bson.D{{"_id", objID}}).Decode(&result)
-		if cur != nil {
-			panic(err)
-		}
-		fileBytes, err := ioutil.ReadFile(result.Path)
-		if err != nil {
-			panic(err)
-		}
-		//fmt.Println(fileBytes)
-		w.WriteHeader(http.StatusOK)
-		w.Write(fileBytes)
-		return
-	}
-}
+// func PhotoOfCard(w http.ResponseWriter, r *http.Request) {
+// 	w.Header().Set("Access-Control-Allow-Origin", "*")
+// 	w.Header().Set("Access-Control-Allow-Methods", "POST")
+// 	w.Header().Set("Access-Control-Allow-Headers", "Content-Type")
+// 	w.Header().Set("Content-Type", "image/jpeg")
+// 	var stringr models.Object
+// 	_ = json.NewDecoder(r.Body).Decode(&stringr)
+// 	fmt.Println(stringr)
+// 	if len(stringr.Photo) != 0 {
+// 		fmt.Println("Check the string", stringr.Photo[0])
+// 		objID, err := primitive.ObjectIDFromHex(stringr.Photo[0])
+// 		if err != nil {
+// 			panic(err)
+// 		}
+// 		var result models.MongoImage
+// 		cur := photocollection.FindOne(context.Background(), bson.D{{"_id", objID}}).Decode(&result)
+// 		if cur != nil {
+// 			panic(err)
+// 		}
+// 		fileBytes, err := ioutil.ReadFile(result.Path)
+// 		if err != nil {
+// 			panic(err)
+// 		}
+// 		//fmt.Println(fileBytes)
+// 		w.WriteHeader(http.StatusOK)
+// 		w.Write(fileBytes)
+// 		return
+// 	}
+// }
 
 func GetAllCards(w http.ResponseWriter, r *http.Request) {
 	w.Header().Set("Context-Type", "application/all")
@@ -145,6 +144,7 @@ func CreateRE(w http.ResponseWriter, r *http.Request) {
 func SearchCards(w http.ResponseWriter, r *http.Request) {
 	w.Header().Set("Context-Type", "application/search")
 	w.Header().Set("Access-Control-Allow-Origin", "*")
+	w.Header().Set("Access-Control-Allow-Methods", "POST")
 	w.Header().Set("Access-Control-Allow-Headers", "Content-Type")
 	var text string
 	_ = json.NewDecoder(r.Body).Decode(&text)
