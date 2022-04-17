@@ -5,30 +5,51 @@ import "../search-in-offers-sass/search-in-offers-main.sass";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faSearch } from "@fortawesome/free-solid-svg-icons";
 
-const SearchInOffersMain = () => {
+const SearchInOffersMain = ({ cards, setCards }) => {
     const handleSearch = (event) => {
         event.preventDefault();
-
-        const search = {
-            search: event.target.search.value,
-        };
-
-        searchFetch(search);
+        const tempCards = cards;
+        const result = tempCards.filter((card) => {
+            return (
+                card.description
+                    .toLowerCase()
+                    .indexOf(event.target.search.value.toLowerCase()) !== -1
+            );
+        });
+        console.log(result);
+        setCards(result);
     };
 
-    async function searchFetch(search) {
-        console.log(search);
-        const response = await fetch("http://localhost:8080/api/task/search", {
-            method: "POST",
-            body: JSON.stringify(search),
-            headers: {
-                // "Content-Type": "application/card",
-                Accept: "*/*",
-            },
-        });
-        const data = await response.json();
-        console.log(data);
-    }
+    // async function searchFetch({ search }) {
+    //     console.log(search);
+    //     console.log(
+    //         JSON.stringify({
+    //             description: search,
+    //             cost: "",
+    //             location: "",
+    //             type: "",
+    //             size: "",
+    //             text: "",
+    //         })
+    //     );
+    //     const response = await fetch("http://localhost:8080/api/task/search", {
+    //         method: "POST",
+    //         body: JSON.stringify({
+    //             description: search,
+    //             cost: "",
+    //             location: "",
+    //             type: "",
+    //             size: "",
+    //             text: "",
+    //         }),
+    //         headers: {
+    //             //"Content-Type": "application/search",
+    //             Accept: "*/*",
+    //         },
+    //     });
+    //     const data = await response.json();
+    //     console.log(data);
+    // }
 
     return (
         <div className="search-in-offers-main">

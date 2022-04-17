@@ -146,14 +146,15 @@ func SearchCards(w http.ResponseWriter, r *http.Request) {
 	w.Header().Set("Access-Control-Allow-Origin", "*")
 	w.Header().Set("Access-Control-Allow-Methods", "POST")
 	w.Header().Set("Access-Control-Allow-Headers", "Content-Type")
-	var text string
+	var text models.Object
 	_ = json.NewDecoder(r.Body).Decode(&text)
-	payload := searchCards(text)
+	fmt.Println("ALALALLAL: ", text.Description)
+	payload := searchCards(text.Description)
 	json.NewEncoder(w).Encode(payload)
 }
 
 func searchCards(d string) []primitive.M {
-	filter := bson.D{{"description", bson.D{{"$text", d}}}}
+	filter := bson.D{{"$text", bson.D{{"$search", d}}}}
 	cur, err := collection.Find(context.Background(), filter)
 	if err != nil {
 		panic(err)

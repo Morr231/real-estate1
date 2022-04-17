@@ -24,8 +24,7 @@ import h17 from "../../houses/1 (17).jpg";
 import h18 from "../../houses/1 (18).jpg";
 import h19 from "../../houses/1 (19).jpg";
 
-const SearchInOffersCards = () => {
-    const [cards, setCards] = useState([]);
+const SearchInOffersCards = ({ cards, setCards }) => {
     const houses = [
         h1,
         h2,

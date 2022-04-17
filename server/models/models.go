@@ -10,6 +10,10 @@ type MongoImage struct {
 	Path    string        `bson:"path"`
 }
 
+type Text struct {
+	Texti string `json:"texti,omitempty"`
+}
+
 type Object struct {
 	HouseID     primitive.ObjectID `json:"house_id,omitempty" bson:"house_id,omitempty"`
 	Name        string             `json:"name,omitempty"`
